@@ -1,0 +1,102 @@
+In Jenkins, parameters are used in parameterized builds, allowing users to pass values to jobs at runtime. This makes builds more dynamic and configurable.
+
+Common Jenkins Parameter Types
+String Parameter	Simple text input.
+
+Example: Enter a branch name (main, dev, etc.).
+
+-----------------------------------------------------
+Choice Parameter	Dropdown list of predefined options.
+
+Example: Environment choices like Dev, QA, Prod.
+----------------------------------------------------------
+
+Boolean Parameter	Checkbox input (true/false).
+
+Example: Enable or disable test execution.
+
+----------------------------------------------------------
+Password Parameter	Hidden input field for sensitive data.
+
+Example: API keys or credentials.
+
+------------------------------------------------------------------------
+File Parameter		Allows file upload to the build.
+
+Used for uploading configuration files or data.
+
+---------------------------------------------------------------
+Run Parameter		Lets you select a specific build from another job.
+
+Git Parameter (via plugin)
+------------------------------------------------------------
+
+
+Enables dynamic Git branch or tag selection.
+
+	How to Add Parameters to a Jenkins Job
+	Go to the job's configuration page.
+
+	Check "This project is parameterized".
+
+	Click "Add Parameter" and choose a type.
+
+	Configure the parameter name, description, and default value.
+
+
+==============================================================
+Example: Using a String Parameter in a Pipeline
+
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch to build')
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building branch: ${params.BRANCH_NAME}"
+            }
+        }
+    }
+}
+
+
+=============================================================================
+
+Example Using boolean paramerter in a pipeline 
+
+pipeline {
+    agent any
+
+    parameters {
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Should the tests be run?')
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building the project...'
+            }
+        }
+
+        stage('Run Tests') {
+            when {
+                expression { return params.RUN_TESTS }
+            }
+            steps {
+                echo 'Running tests...'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+            }
+        }
+    }
+}
+
+
+
+===================================================================================

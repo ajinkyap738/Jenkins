@@ -1,0 +1,60 @@
+In Jenkins, environment variables are key-value pairs used to pass configuration data to jobs and scripts. These can be used to customize job behavior, access Jenkins settings, or share data between steps.
+
+Common Jenkins Environment Variables
+Variable	Description
+BUILD_NUMBER	The current build number
+BUILD_ID	The build ID (e.g., 2025-05-05_15-23-01)
+JOB_NAME	The name of the job
+WORKSPACE	Path to the workspace directory
+JENKINS_HOME	Jenkins installation directory
+GIT_COMMIT	Git commit hash (if using Git plugin)
+BRANCH_NAME	Name of the Git branch (for multibranch pipelines)
+NODE_NAME	Name of the node/slave running the job
+
+
+================================================================
+
+There are three type of jenkins variables
+
+1. Globally
+2. In pipeline script
+3. Within a job
+
+=================================================================
+
+Setting Custom Environment Variables
+1. In a Pipeline (Declarative syntax):
+
+pipeline {
+    environment {
+        MY_VAR = "hello"
+    }
+    stages {
+        stage('Print') {
+            steps {
+                echo "MY_VAR is ${env.MY_VAR}"
+            }
+        }
+    }
+}
+
+
+===============================================================
+
+
+Example of Common Jenkins Environment Variables
+
+
+pipeline {
+    agent any
+    stages {
+        stage('Show Environment Variables') {
+            steps {
+                echo "BUILD_ID is: ${env.BUILD_ID}"
+                echo "JOB_NAME is: ${env.JOB_NAME}"
+		echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
+            }
+        }
+    }
+}
+

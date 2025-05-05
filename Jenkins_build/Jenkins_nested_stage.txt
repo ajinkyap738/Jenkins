@@ -1,0 +1,54 @@
+In Jenkins (specifically using Declarative Pipeline syntax), nested stages are supported and useful 
+when you want to organize complex pipelines more clearly—typically inside a 
+parallel block or for visual grouping in Blue Ocean or other UI tools.
+
+Here's an example of how nested stages work:
+
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build & Test') {
+            parallel {
+                stage('Build') {
+                    stages {
+                        stage('Compile') {
+                            steps {
+                                echo 'Compiling...'
+                            }
+                        }
+                        stage('Package') {
+                            steps {
+                                echo 'Packaging...'
+                            }
+                        }
+                    }
+                }
+                stage('Test') {
+                    stages {
+                        stage('Unit Tests') {
+                            steps {
+                                echo 'Running unit tests...'
+                            }
+                        }
+                        stage('Integration Tests') {
+                            steps {
+                                echo 'Running integration tests...'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application...'
+            }
+        }
+    }
+}
+
+
+

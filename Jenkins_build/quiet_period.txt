@@ -1,0 +1,19 @@
+In Jenkins, the quiet period is a configurable delay between when a build is triggered and when it actually starts. This delay is useful in cases where:
+
+Multiple triggers happen in quick succession (e.g., several commits pushed to a repository).
+
+You want to reduce redundant builds by allowing time for other changes to accumulate.
+
+You want to stabilize the environment before a build starts.
+
+How it works:
+The default quiet period is 5 seconds.
+
+During this time, if more changes are detected or new triggers arrive, Jenkins merges them into the same build.
+
+The quiet period starts after a job is scheduled, not before.
+
+How to configure it:
+Globally: Go to Manage Jenkins > Configure System, and scroll down to the "Quiet period" setting.
+
+Per job: In the job configuration page, go to Build Triggers > Advanced, and set the quiet period.

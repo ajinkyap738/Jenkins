@@ -1,0 +1,29 @@
+
+How to Use "Poll SCM" in Jenkins:
+1. Go to your Jenkins job configuration.
+
+2. Scroll to the "Build Triggers" section.
+
+3. Check the box for "Poll SCM".
+
+In the Schedule field, enter a cron-style expression to define how often Jenkins should poll the repository.
+
+Cron Syntax (Jenkins-style):
+The format is:
+
+	MINUTE HOUR DOM MONTH DOW
+Examples:
+
+H/15 * * * * — Polls every 15 minutes.
+
+H 4 * * 1-5 — Polls at 4 AM on weekdays.
+
+@hourly — Polls once every hour.
+
+H is used to spread out the load on Jenkins if multiple jobs are polling. It hashes the job name to a specific time slot.
+
+Notes:
+
+	Polling ≠ building — Jenkins only triggers a build if it finds changes in the repository.
+
+	Works best with SCMs that support change detection (like Git).

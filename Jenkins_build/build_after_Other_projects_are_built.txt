@@ -1,0 +1,33 @@
+
+How to Use "Build after other projects are built"
+1. Go to the job configuration of the project you want to trigger after other projects.
+
+2. Scroll to the "Build Triggers" section.
+
+3. Check the box labeled "Build after other projects are built."
+
+4. In the "Projects to watch" field, enter the names of the upstream jobs (comma-separated if multiple).
+
+These must match the exact job names.
+
+5. Click Save.
+
+Important Notes:
+The build will trigger only if the upstream projects finish successfully (i.e., with a "stable" result).
+
+This is useful for simple CI/CD pipelines where you want to build/test/deploy in stages.
+
+Example:
+If you have:
+
+	Job-A: builds code
+
+	Job-B: runs tests after Job-A
+
+	Job-C: deploys after Job-B
+
+You can configure:
+
+	Job-B with "Build after other projects are built" = Job-A
+
+	Job-C with "Build after other projects are built" = Job-B

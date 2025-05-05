@@ -1,0 +1,93 @@
+To trigger a Jenkins build remotely, you need to configure your Jenkins job and use a properly formed HTTP request. Here's a step-by-step guide:
+
+🔧 Step 1: Enable Remote Build Trigger
+Go to your Jenkins job.
+
+Click Configure.
+
+Scroll down to Build Triggers.
+
+Check the box: "Trigger builds remotely (e.g., from scripts)"
+
+Set an Authentication Token (e.g., mysecrettoken).
+
+Click Save.
+
+🌐 Step 2: Make a Remote Build Request
+You'll use a URL like this:
+
+
+http://<JENKINS_URL>/job/<JOB_NAME>/build?token=<TOKEN>
+Example:
+
+
+	http://jenkins.example.com/job/my-job-name/build?token=mysecrettoken
+You can trigger it via:
+-------------------------------------------------
+Curl:
+
+curl http://jenkins.example.com/job/my-job-name/build?token=mysecrettoken
+-------------------------------------------------
+
+Wget:
+
+	wget http://jenkins.example.com/job/my-job-name/build?token=mysecrettoken
+🔐 Optional: Use Jenkins API Token (if authentication is required)
+If your Jenkins is secured, append --user or use a token:
+
+
+curl -u username:APITOKEN "http://jenkins.example.com/job/my-job-name/build?token=mysecrettoken"
+You can find your API token in:
+
+Jenkins top-right → Your name → Configure → API Token
+
+✅ Notes
+Use /buildWithParameters instead of /build if your job takes parameters.
+
+Ensure the Jenkins URL is accessible from your triggering system (e.g., firewall settings).
+
+Would you like a working example using parameters or authentication?
+
+
+
+=================================================================
+
+
+To get your Jenkins API Authentication Token, follow the steps below, depending on your Jenkins version (Classic UI or new UI):
+
+ Classic Jenkins UI (most common setup)
+Log in to Jenkins.
+
+In the top-right corner, click your username.
+
+On your user page, click "Configure" (or go to: http://<jenkins-url>/user/<your-username>/configure)
+
+Scroll down to the "API Token" section.
+
+If you’ve never generated a token:
+
+Click "Add new Token"
+
+Give it a name (e.g., remote-trigger)
+
+Click Generate
+
+Copy the API token now — it will only be shown once!
+
+
+========================================================
+
+
+🧰 Newer Jenkins Versions (with Blue Ocean or modern security)
+Click your username in the top-right → "Manage Jenkins"
+
+Go to "Manage Users", then click on your username.
+
+Find the API Token section.
+
+Create a new token if none exists, and copy it securely.
+
+🔐 Use API Token in cURL
+
+	curl -u your_username:your_token http://your_jenkins_url/job/your_job/build?token=your_job_token
+Would you like help generating the token via script or managing it in a CI/CD environment

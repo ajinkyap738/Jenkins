@@ -1,0 +1,48 @@
+In Jenkins, pipeline options are settings that apply to the entire pipeline or a specific stage. 
+These options help manage build behavior, timeouts, retries, concurrency, and more. 
+Here's a summary of commonly used pipeline options:
+===========================================================
+
+📌 Descriptions:
+Option				Description
+timeout				Aborts the pipeline if it exceeds the specified time.
+retry(n)			Retries failed stage n times.
+buildDiscarder			Controls build history retention.
+disableConcurrentBuilds		Ensures only one build runs at a time for a job.
+skipDefaultCheckout()		Disables automatic checkout scm.
+timestamps()			Adds timestamps to each line in the log.
+ansiColor('xterm')		Enables colored output in console (useful for tools like gradle, maven).
+preserveStashes			Preserves stashed files across builds.
+parallelsAlwaysFailFast		Stops other parallel branches if one fails.
+
+
+
+
+============================================================
+
+
+
+pipeline {
+    agent any
+
+    options {
+        timeout(time: 30, unit: 'MINUTES')         // Automatically timeout the build
+        retry(3)                                    // Retry a failed build stage N times
+        buildDiscarder(logRotator(numToKeepStr: '10')) // Keep only the latest 10 builds
+        disableConcurrentBuilds()                  // Prevent concurrent builds
+        skipDefaultCheckout()                      // Skip automatic SCM checkout
+        timestamps()                               // Add timestamps to the console output
+        ansiColor('xterm')                         // Enable ANSI color in console
+        preserveStashes(buildCount: 5)             // Keep stashes from the last 5 builds
+        parallelsAlwaysFailFast()                  // Fail fast in parallel blocks
+    }
+
+    stages {
+        stage('Example') {
+            steps {
+                echo 'Running an example stage...'
+            }
+        }
+    }
+}
+

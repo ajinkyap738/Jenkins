@@ -1,0 +1,35 @@
+How to Enable and Use "Build periodically":
+
+1. Go to your Jenkins job.
+
+2. Click "Configure".
+
+3. Scroll to the "Build Triggers" section.
+
+4. Check "Build periodically".
+
+5. Enter a schedule using the cron-like syntax.
+
+Cron Syntax in Jenkins
+
+	MINUTE HOUR DOM MONTH DOW
+	MINUTE: 0–59
+
+	HOUR: 0–23
+
+	DOM (Day of Month): 1–31
+
+	MONTH: 1–12
+
+	DOW (Day of Week): 0–7 (0 or 7 = Sunday)
+
+Examples
+H 2 * * * — Build daily at 2 AM (H spreads the load)
+
+*/15 * * * * — Build every 15 minutes
+
+H H * * 1-5 — Build once during work hours on weekdays
+
+0 0 * * 0 — Build every Sunday at midnight
+
+The use of H (hash) in Jenkins helps distribute load evenly when many jobs are scheduled at the same time.

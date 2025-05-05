@@ -1,0 +1,79 @@
+In Jenkins, the input step is used in Declarative or Scripted Pipelines to pause the pipeline and 
+wait for human intervention. This is useful when you want to:
+
+Get approval before continuing (e.g., for production deployments).
+
+Allow users to choose parameters or options during the build.
+
+Pause a pipeline until someone manually confirms or provides input.
+
+🔹 How input Works
+When a pipeline reaches an input step, Jenkins pauses the job and displays a prompt in the UI.
+ A user must then go to Jenkins, respond to the prompt, and approve or reject the continuation.
+
+---------------------------------------------------------------
+🔸 Declarative Pipeline Example
+
+
+pipeline {
+    agent any
+    stages {
+        stage('Approval') {
+            steps {
+                input {
+                    message "Deploy to Production?"
+                    ok "Yes, Deploy"
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying to Production...'
+            }
+        }
+    }
+}
+
+
+----------------------------------------------------------------------------
+
+pipeline {
+    agent any
+    stages {
+        stage('Wait for Input') {
+            steps {
+                script {
+                    def userInput = input(
+                        message: 'Proceed with deployment?',
+                        parameters: [string(defaultValue: 'yes', description: 'Type yes to proceed', name: 'confirmation')]
+                    )
+                    echo "User input: ${userInput}"
+                }
+            }
+        }
+        stage('Deployment') {
+            steps {
+                echo 'Deploying application...'
+            }
+        }
+    }
+}
+
+
+
+===============================================================
+
+🔸 With Parameters
+You can also ask for custom input:
+
+input(
+    message: 'Approve Deployment',
+    parameters: [
+        string(name: 'Environment', defaultValue: 'staging', description: 'Target Environment'),
+        booleanParam(name: 'RestartService', defaultValue: true, description: 'Restart the service after deployment?')
+    ]
+)
+
+
+
+==================================================================================
