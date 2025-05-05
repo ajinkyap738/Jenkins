@@ -65,3 +65,25 @@ root@jenkins-server ~ via ☕ v17.0.13 ➜  sudo apt install python3.12-venv -y
 
 ======================================================================
 
+✅ Push a Local Branch to a Remote Repository
+Assuming you already have a local branch (e.g., feature-xyz) and want to make it available remotely:
+
+
+git push origin feature-xyz
+origin is the default name for the remote repository.
+
+feature-xyz is your local branch name.
+
+🌍 Make the Branch Track Remote Automatically
+To set the upstream branch (so future git push/git pull commands work without specifying the branch name):
+
+git push --set-upstream origin feature-xyz
+After this, you can just use:
+
+git push
+git pull
+🧭 Check Remote Branches
+To see all branches, including remote ones:
+
+
+git branch -a
