@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        // Stage 1: Setup virtual environment and install dependencies
         stage('Setup') {
             steps {
                 sh '''
@@ -12,6 +13,7 @@ pipeline {
             }
         }
 
+        // Stage 2: Run tests
         stage('Test') {
             steps {
                 sh '''
@@ -21,24 +23,19 @@ pipeline {
             }
         }
 
+        // Stage 3: Deployment - manual approval before deployment
         stage('Deployment') {
             steps {
                 script {
-               #     def approver = input(
-               #         id: 'DeployInput',
-               #         message: 'Proceed with deployment?',
-               #         ok: 'Deploy',
-               #         parameters: [],
-                #        submitter: 'admin,teamlead' // optional, requires Jenkins security setup
-               #     )
-                def approver = input(
-                message: 'Proceed with deployment?',
-                ok: 'Deploy'
-               )
+                    // Manual input step for deployment approval
+                    def approver = input(
+                        message: 'Proceed with deployment?',
+                        ok: 'Deploy'
+                    )
                     echo "✅ Deployment approved by: ${approver}"
                     
-                    // Your deployment script or command goes here:
-                    // sh './deploy.sh'
+                    // Your deployment script or commands go here
+                    // For example, sh './deploy.sh'
                     echo "🚀 Deploying application..."
                 }
             }
