@@ -24,13 +24,17 @@ pipeline {
         stage('Deployment') {
             steps {
                 script {
-                    def approver = input(
-                        id: 'DeployInput',
-                        message: 'Proceed with deployment?',
-                        ok: 'Deploy',
-                        parameters: [],
-                        submitter: 'admin,teamlead' // optional, requires Jenkins security setup
-                    )
+               #     def approver = input(
+               #         id: 'DeployInput',
+               #         message: 'Proceed with deployment?',
+               #         ok: 'Deploy',
+               #         parameters: [],
+                #        submitter: 'admin,teamlead' // optional, requires Jenkins security setup
+               #     )
+                def approver = input(
+                message: 'Proceed with deployment?',
+                ok: 'Deploy'
+               )
                     echo "✅ Deployment approved by: ${approver}"
                     
                     // Your deployment script or command goes here:
