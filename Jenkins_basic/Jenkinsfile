@@ -2,42 +2,42 @@ pipeline {
     agent any
 
     stages {
-
-
         stage('Setup') {
             steps {
-
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
                     pip install -r Jenkins_basic/requirements.txt
-                '''            
-
-
+                '''
             }
-       }
+        }
+
         stage('Test') {
             steps {
                 sh '''
                     . venv/bin/activate
                     pytest
                 '''
-                
             }
-        }    
+        }
 
         stage('Deployment') {
-
-
-        def approver = input(
-        id: 'DeployInput', message: 'Proceed with deployment?', ok: 'Deploy',
-        parameters: [],
-        submitter: 'admin,teamlead'
-        )
-
-
-        } 
-        
-            
+            steps {
+                script {
+                    def approver = input(
+                        id: 'DeployInput',
+                        message: 'Proceed with deployment?',
+                        ok: 'Deploy',
+                        parameters: [],
+                        submitter: 'admin,teamlead' // optional, requires Jenkins security setup
+                    )
+                    echo "✅ Deployment approved by: ${approver}"
+                    
+                    // Your deployment script or command goes here:
+                    // sh './deploy.sh'
+                    echo "🚀 Deploying application..."
+                }
+            }
+        }
     }
 }
