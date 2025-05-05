@@ -25,15 +25,17 @@ pipeline {
                 
             }
         }    
+
         stage('Deployment') {
-            input {
-                message "Do you want to proceed further?"
-                ok "Yes"
-            }
-            steps {
-                echo "Running Deployment"
-                
-            }
+
+
+        def approver = input(
+        id: 'DeployInput', message: 'Proceed with deployment?', ok: 'Deploy',
+        parameters: [],
+        submitter: 'admin,teamlead'
+        )
+
+
         } 
         
             
