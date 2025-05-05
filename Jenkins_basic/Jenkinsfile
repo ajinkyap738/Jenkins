@@ -2,6 +2,10 @@ pipeline {
     agent any
 
     stages {
+        stage("Checkout"){
+            git url: 'https://github.com/ajinkyap738/Jenkins.git',branch: 'main'
+            sh 'ls -lart'
+        }
         // Stage 1: Setup virtual environment and install dependencies
         stage('Setup') {
             steps {
