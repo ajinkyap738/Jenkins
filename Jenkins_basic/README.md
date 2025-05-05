@@ -39,3 +39,29 @@ Jenkins: Triggers a build when you push code.
 Discord/Slack: Sends a message when a PR is opened.
 
 Custom API: Handles CI/CD, analytics, notifications.
+
+================================================
+Showing the below error the
+
+
++ python3 -m venv venv
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+
+    apt install python3.12-venv
+
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+
+
+
+
+Then have to install the  apt install python3.12-venv on the respective node it directly not working then
+
+apt-get upadte -y
+
+root@jenkins-server ~ via ☕ v17.0.13 ➜  sudo apt install python3.12-venv -y
+
+======================================================================
+
