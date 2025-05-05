@@ -23,22 +23,6 @@ pipeline {
             }
         }
 
-        // Stage 3: Deployment - manual approval before deployment
-        stage('Deployment') {
-            steps {
-                script {
-                    // Manual input step for deployment approval
-                    def approver = input(
-                        message: 'Proceed with deployment?',
-                        ok: 'Deploy'
-                    )
-                    echo "✅ Deployment approved by: ${approver}"
-                    
-                    // Your deployment script or commands go here
-                    // For example, sh './deploy.sh'
-                    echo "🚀 Deploying application..."
-                }
-            }
-        }
+       
     }
 }
