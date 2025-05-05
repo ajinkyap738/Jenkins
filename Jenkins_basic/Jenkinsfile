@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage("Checkout") {
             steps {
-                git url: 'https://github.com/ajinkyap738/Jenkins.git', branch: 'main'
+                git url: 'https://github.com/ajinkyap738/Jenkins.git', branch: 'ajinkya'
                 sh 'ls -lart'
             }
         }
