@@ -1,0 +1,69 @@
+✅ Jenkins Pipeline: Docker Build, Push, and Pull Example
+
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "your-docker-username/your-image"
+        IMAGE_TAG = "latest"
+        DOCKER_REGISTRY = "docker.io" // or your private registry
+    }
+
+    stages {
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-creds-id',
+                                                     usernameVariable: 'DOCKER_USERNAME',
+                                                     passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "echo \$DOCKER_PASSWORD | docker login $DOCKER_REGISTRY -u \$DOCKER_USERNAME --password-stdin"
+                    }
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t $IMAGE_NAME:$IMAGE_TAG ."
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                script {
+                    sh "docker push $IMAGE_NAME:$IMAGE_TAG"
+                }
+            }
+        }
+
+        stage('Remove Local Image') {
+            steps {
+                script {
+                    sh "docker rmi $IMAGE_NAME:$IMAGE_TAG"
+                }
+            }
+        }
+
+        stage('Pull Image to Verify') {
+            steps {
+                script {
+                    sh "docker pull $IMAGE_NAME:$IMAGE_TAG"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                sh 'docker logout'
+            }
+        }
+    }
+}
+
+
+
+

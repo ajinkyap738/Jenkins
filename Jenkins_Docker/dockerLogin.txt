@@ -1,0 +1,37 @@
+To perform a Docker login in a Jenkins pipeline using credentials securely stored in Jenkins, you typically use the withCredentials block along with the appropriate credentials type (like Username with password).
+
+Here’s an example Jenkins declarative pipeline stage for logging into Docker using credentials:
+
+pipeline {
+    agent any
+
+    environment {
+        DOCKER_REGISTRY = 'your.docker.registry.com'
+    }
+
+    stages {
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'docker-creds-id',
+                                                     usernameVariable: 'DOCKER_USERNAME',
+                                                     passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "echo \$DOCKER_PASSWORD | docker login $DOCKER_REGISTRY -u \$DOCKER_USERNAME --password-stdin"
+                    }
+                }
+            }
+        }
+
+        // Additional stages here...
+    }
+}
+
+
+===============================================================
+
+Key Components:
+credentialsId: The ID of the Jenkins credential you've configured (of type Username with password).
+
+docker login: Uses --password-stdin for more secure input (prevents logging the password).
+
+Would you like an example that logs into Docker Hub or a private registry?
