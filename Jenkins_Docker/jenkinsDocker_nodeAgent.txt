@@ -1,0 +1,80 @@
+Setting up a Docker container as a build agent (slave) in Jenkins involves the following main steps:
+
+1. Prerequisites
+Jenkins installed (either standalone or in a container)
+
+Docker installed on the Jenkins master or agent host
+
+Jenkins should have the Docker plugin installed
+
+2. Install Docker Plugin in Jenkins
+Go to Manage Jenkins > Manage Plugins
+
+Search for "Docker plugin" (by CloudBees) and install it
+
+Also install "Docker Commons Plugin" and "Docker Pipeline Plugin" for pipeline support
+
+3. Create Docker Agent Image
+Create a custom Docker image to be used as the build agent:
+
+Dockerfile (jenkins-agent):
+
+FROM jenkins/inbound-agent:latest
+
+# Install required tools
+USER root
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    docker.io \
+    && rm -rf /var/lib/apt/lists/*
+
+USER jenkins
+
+
+
+----------------------------------
+
+Build the image:
+
+docker build -t my-jenkins-agent .
+
+
+------------------------------------
+
+4. Configure Jenkins Docker Cloud
+Go to Manage Jenkins > Configure Clouds
+
+Click "Add a new cloud" > Docker
+
+Configure:
+
+Docker Host URI: unix:///var/run/docker.sock (for local Docker)
+
+Enable "Expose Docker daemon on Unix socket"
+
+Docker Agent templates:
+
+Labels: docker-agent
+
+Name: any name
+
+Docker Image: my-jenkins-agent
+
+Remote File System Root: /home/jenkins
+
+Usage Mode: Only build jobs with label expressions matching this node
+
+Launch Method: Connect with SSH or use JNLP depending on the image base
+
+5. Using Docker Agent in Pipeline (Optional)
+
+
+6. Test the Agent
+Create a new freestyle or pipeline job
+
+Assign the job label docker-agent
+
+Run it to verify the Docker container is spun up and used as an agent
+
+Would you like a diagram of the setup architecture or a working docker-compose example to run
